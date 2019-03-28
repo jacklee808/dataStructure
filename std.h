@@ -19,4 +19,9 @@
 #define false 0
 #define true 1
 
+#define ElemType int
+
+bool compare(ElemType a, ElemType b);
+void visit(ElemType e);
+
 #endif /* std_h */
