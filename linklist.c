@@ -1,5 +1,5 @@
 //
-//  list.c
+//  linklist.c
 //  ds
 //
 //  Created by 李印臣 on 2019/3/28.
@@ -201,6 +201,17 @@ linkList unionList(linkList La, linkList Lb){
     return La;
 }
 
+void insertNode(LNode **Lc, LNode **p, LNode **r){
+    if((*r) == NULL){
+        (*r) = (*p);
+        *Lc = (*r);
+    }else{
+        (*r)->next = (*p);
+        (*r) = (*r) ->next;
+    }
+    (*p) = (*p)->next;
+    (*r)->next = NULL;
+}
 void mergeList(linkList La, linkList Lb, linkList *Lc){
     LNode *p = NULL, *q = NULL, *r = NULL;
     
@@ -212,50 +223,17 @@ void mergeList(linkList La, linkList Lb, linkList *Lc){
     
     while(p != NULL && q != NULL){
         if(p->data > q->data){
-            if(r == NULL){
-                r = q;
-                *Lc = r;
-            }else{
-                r->next = q;
-                r = r ->next;
-            }
-            q = q->next;
-            r->next = NULL;
+            insertNode(Lc, &q, &r);
         }else{
-            if(r == NULL){
-                r = p;
-                *Lc = r;
-            }else{
-                r->next = p;
-                r = r ->next;
-            }
-            p = p->next;
-            r->next = NULL;
+            insertNode(Lc, &p, &r);
         }
     }
     
     while(p != NULL){
-        if(r == NULL){
-            r = p;
-            *Lc = r;
-        }else{
-            r->next = p;
-            r = r ->next;
-        }
-        p = p->next;
-        r->next = NULL;
+        insertNode(Lc, &p, &r);
     }
     
     while (q != NULL) {
-        
-        if(r == NULL){
-            r = q;
-            *Lc = r;
-        }else{
-            r->next = q;
-            r = r ->next;
-        }
-        q = q->next;
-        r->next = NULL;
+        insertNode(Lc, &q, &r);
     }
 }
