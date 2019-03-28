@@ -59,39 +59,38 @@ bool compare(ElemType a, ElemType b){
 }
 
 int locateELem(SList *L, ElemType e, bool (* compare)(ElemType a, ElemType b)){
-    int i;
+    int i = 0;
+    ElemType *p;
     
     if(!isExist(L)) return INT_MIN;
     
-    for (i = 0; i < L->len; i++) {
-        if((*compare)(e, getElem(L, i)) == true) return i;
-    }
+    p = L->elem;
+    while(i < L->len && (*compare)(e, *p++) == false) i++;
     
-    return INT_MIN;
+    if (i < L->len) return i;
+    else return INT_MIN;
+}
+
+ElemType neighborELem(SList *L, ElemType cur_e, bool isNext){
+    int i = 0;
+    ElemType *p;
+    
+    if(!isExist(L)) return INT_MIN;
+    
+    p = L->elem;
+    while(i < L->len && (*compare)(cur_e, getElem(L, i)) == false) i++;
+    
+    if (isNext && i + 1 < L->len) return getElem(L, i + 1);
+    else if(!isNext && i > 0 && i < L->len) return getElem(L, i - 1);
+    else return INT_MIN;
 }
 
 ElemType priorElem(SList *L, ElemType cur_e){
-    int i;
-    
-    if(!isExist(L)) return INT_MIN;
-    
-    for (i = 0; i < L->len; i++) {
-        if((*compare)(cur_e, getElem(L, i)) == true && i > 0) return getElem(L, i - 1);
-    }
-    
-    return INT_MIN;
+    return neighborELem(L, cur_e, false);
 }
 
 ElemType nextELem(SList *L, ElemType cur_e){
-    int i;
-    
-    if(!isExist(L)) return INT_MIN;
-    
-    for (i = 0; i < L->len; i++) {
-        if((*compare)(cur_e, getElem(L, i)) == true && i + 1 < L->len) return getElem(L, i + 1);
-    }
-    
-    return INT_MIN;
+    return neighborELem(L, cur_e, true);
 }
 
 bool insertSList(SList *L, int index, ElemType e){
