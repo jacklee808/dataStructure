@@ -95,7 +95,7 @@ ElemType nextELem(SList *L, ElemType cur_e){
 }
 
 bool insertSList(SList *L, int index, ElemType e){
-    int i;
+    ElemType *p, *q;
     
     if(!isExist(L) && (index > L->len || index < 0)) return false;
     
@@ -105,23 +105,28 @@ bool insertSList(SList *L, int index, ElemType e){
         L->SListSize += SListINCREMENT;
     }
     
-    for (i = L->len; i > index; i--) {
-        L->elem[i] = L->elem[i - 1];
+    //涉及数据大规模移动时，用指针操作代替下标
+    q = &L->elem[index];
+    for(p = &L->elem[L->len]; p >= q; p--){
+        *(p + 1) = *p;
     }
-    L->elem[index] = e;
+    
+    *q = e;
     L->len++;
     
     return true;
 }
 
 bool deleteSList(SList *L, int index){
-    int i;
+    ElemType *p;
     
     if(!isExist(L) && (index > L->len || index < 0)) return false;
-    for (i = index; i < L->len; i++) {
-        L->elem[i] = L->elem[i + 1];
+    
+    for (p = &L->elem[index]; p < &L->elem[L->len  -1]; p++) {
+        *p = *(p + 1);
     }
-    L->len -= 1;
+    
+    L->len--;
     
     return true;
 }
