@@ -38,5 +38,6 @@ bool insertSList(SList *L, int index, ElemType e);
 bool deleteSList(SList *L, int index);
 void visit(ElemType e);
 void traverseSList(SList *L, void (* visit)(ElemType e));
-
+SList * unionSList(SList *La, SList *Lb);
+void mergeSList(SList *La, SList *Lb, SList **Lc);
 #endif /* slist_h */

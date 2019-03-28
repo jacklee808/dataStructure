@@ -141,3 +141,52 @@ void traverseSList(SList *L, void (* visit)(ElemType e)){
         (*visit)(L->elem[i]);
     }
 }
+
+SList * unionSList(SList *La, SList *Lb){
+    int i, j;
+    ElemType e;
+    if (isEmpty(La)) return Lb;
+    if(isEmpty(Lb)) return La;
+    
+    for (i = La->len, j = 0; j < Lb->len; j++) {
+        e = getElem(Lb, j);
+        if (locateELem(La, e, &compare) == INT_MIN) {
+            insertSList(La, i++, Lb->elem[j]);
+        }
+    }
+    
+    return La;
+}
+
+void mergeSList(SList *La, SList *Lb, SList **Lc){
+    int i = 0, j = 0, k = 0, aLen = 0, bLen = 0;
+    ElemType e1, e2;
+    initSList(Lc);
+    
+    if (!isEmpty(La)) aLen = getLen(La);
+    if (!isEmpty(Lb)) bLen = getLen(Lb);
+    
+    while(aLen > i && bLen > j){
+        e1 = getElem(La, i);
+        e2 = getElem(Lb, j);
+        if(e1 > e2){
+            insertSList(*Lc, k++, e2);
+            j++;
+        }else{
+            insertSList(*Lc, k++, e1);
+            i++;
+        }
+    }
+    
+    while(aLen > i){
+        e1 = getElem(La, i++);
+        insertSList(*Lc, k++, e1);
+    }
+    
+    while(bLen > j){
+        e2 = getElem(Lb, j++);
+        insertSList(*Lc, k++, e2);
+        
+    }
+    
+}
