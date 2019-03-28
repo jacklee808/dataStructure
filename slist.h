@@ -25,18 +25,16 @@ typedef struct{
 void initSList(SList **L);
 void destroySList(SList **L);
 void clearSList(SList *L);
-bool isEmpty(SList *L);
-bool isExist(SList *L);
-int getLen(SList *L);
-ElemType getElem(SList *L, int index);
+bool isEmptySList(SList *L);
+bool isExistSList(SList *L);
+int getLenSList(SList *L);
+ElemType getElemSList(SList *L, int index);
 //传递函数指针
-bool compare(ElemType a, ElemType b);
-int locateELem(SList *L, ElemType e, bool (* compare)(ElemType a, ElemType b));
-ElemType priorElem(SList *L, ElemType cur_e);
-ElemType nextELem(SList *L, ElemType cur_e);
+int locateELemSList(SList *L, ElemType e, bool (* compare)(ElemType a, ElemType b));
+ElemType priorElemSList(SList *L, ElemType cur_e);
+ElemType nextELemSList(SList *L, ElemType cur_e);
 bool insertSList(SList *L, int index, ElemType e);
 bool deleteSList(SList *L, int index);
-void visit(ElemType e);
 void traverseSList(SList *L, void (* visit)(ElemType e));
 SList * unionSList(SList *La, SList *Lb);
 void mergeSList(SList *La, SList *Lb, SList **Lc);
