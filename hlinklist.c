@@ -2,8 +2,8 @@
 //  hlinkList.c
 //  ds
 //
-//  Created by 李印臣 on 2019/3/29.
-//  Copyright © 2019年 李印臣. All rights reserved.
+//  Created by 李名韬 on 2019/3/29.
+//  Copyright © 2019年 李名韬. All rights reserved.
 //
 
 #include "hlinklist.h"

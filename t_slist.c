@@ -2,8 +2,8 @@
 //  t_slist.c
 //  ds
 //
-//  Created by 李印臣 on 2019/3/29.
-//  Copyright © 2019年 李印臣. All rights reserved.
+//  Created by 李名韬 on 2019/3/29.
+//  Copyright © 2019年 李名韬. All rights reserved.
 //
 
 #include "t_slist.h"
@@ -105,10 +105,6 @@ void t_isEmptySList(){
     check_isEmptySList(L, true, 4);
 }
 
-//void check_isExistSList(bool flag, int num){
-//    if(flag) println("isExistSList OK", num);
-//    else println("isExistSList error", num);
-//}
 CHECK(isExistSList, flag, num)
 
 void check_isExistSList(SList *L, bool N, int num){
