@@ -10,19 +10,20 @@
 #define t_linklist_h
 
 #include <stdio.h>
-#include "linklist.h"
 #include "std.h"
+#include "t_list.h"
+#include "linklist.h"
 
 void t_initList(void);
 void t_destroyList(void);
 void t_clearList(void);
-void t_isEmpty(void);
-void t_isExist(void);
-void t_getLen(void);
-void t_getElem(void);
-void t_locateELem(void);
-void t_priorElem(void);
-void t_nextELem(void);
+void t_isEmptyList(void);
+void t_isExistList(void);
+void t_getLenList(void);
+void t_getElemList(void);
+void t_locateELemList(void);
+void t_priorElemList(void);
+void t_nextELemList(void);
 void t_insertList(void);
 void t_deleteList(void);
 

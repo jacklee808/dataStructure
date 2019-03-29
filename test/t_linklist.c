@@ -9,31 +9,14 @@
 #include "t_linklist.h"
 
 CHECK(initList, flag, num)
-
-void check_initList(linkList L, bool N, int num){
-    bool flag;
-    flag = isExist(L);
-    if(!N) flag = !flag;
-    check_initList_0(flag, num);
-}
-
-void t_initList(){
-    linkList L = NULL;
-    linkList p = NULL;
-    
-    check_initList(L, false, 1);
-    initList(&L);
-    check_initList(L, true, 2);
-    p = L;
-    initList(&L);
-    check_initList(L, p == L, 3);
-}
+check_init(List)
+t_init(List)
 
 CHECK(destroyList, flag, num)
 
 void check_destroyList(linkList L, bool N, int num){
     bool flag;
-    flag = isExist(L);
+    flag = isExistList(L);
     if(!N) flag = !flag;
     check_destroyList_0(flag, num);
 }
@@ -58,7 +41,7 @@ CHECK(clearList, flag, num)
 void check_clearList(linkList *L, bool N, int num){
     bool flag;
     clearList(L);
-    flag = !(!isExist(*L) || (isExist(*L) && isEmpty(*L)));
+    flag = !(!isExistList(*L) || (isExistList(*L) && isEmptyList(*L)));
     if(!N) flag = !flag;
     check_clearList_0(flag, num);
 }
@@ -78,150 +61,150 @@ void t_clearList(){
     check_clearList(&L, false, 4);
 }
 
-CHECK(isEmpty, flag, num)
+CHECK(isEmptyList, flag, num)
 
-void check_isEmpty(linkList L, bool N, int num){
+void check_isEmptyList(linkList L, bool N, int num){
     bool flag;
-    flag = isEmpty(L);
+    flag = isEmptyList(L);
     if(!N) flag = !flag;
-    check_isEmpty_0(flag, num);
+    check_isEmptyList_0(flag, num);
 }
 
-void t_isEmpty(){
+void t_isEmptyList(){
     linkList L = NULL;
     
-    check_isEmpty(L, true, 1);
+    check_isEmptyList(L, true, 1);
     initList(&L);
-    check_isEmpty(L, true, 2);
+    check_isEmptyList(L, true, 2);
     insertList(L, 0, 1);
-    check_isEmpty(L, false, 3);
+    check_isEmptyList(L, false, 3);
     deleteList(&L, 0);
-    check_isEmpty(L, true, 4);
+    check_isEmptyList(L, true, 4);
 }
 
-CHECK(isExist, flag, num)
+CHECK(isExistList, flag, num)
 
-void check_isExist(linkList L, bool N, int num){
+void check_isExistList(linkList L, bool N, int num){
     bool flag;
-    flag = isExist(L);
+    flag = isExistList(L);
     if(!N) flag = !flag;
-    check_isExist_0(flag, num);
+    check_isExistList_0(flag, num);
 }
 
-void t_isExist(){
+void t_isExistList(){
     linkList L = NULL;
     
-    check_isExist(L, false, 1);
+    check_isExistList(L, false, 1);
     initList(&L);
-    check_isExist(L, true, 2);
+    check_isExistList(L, true, 2);
     clearList(&L);
-    check_isExist(L, false, 3);
+    check_isExistList(L, false, 3);
     destroyList(&L);
-    check_isExist(L, false, 4);
+    check_isExistList(L, false, 4);
 }
 
-CHECK(getLen, flag, num)
+CHECK(getLenList, flag, num)
 
-void check_getLen(linkList L, int result, int num){
+void check_getLenList(linkList L, int result, int num){
     bool flag;
-    flag = (getLen(L) == result);
-    check_getLen_0(flag, num);
+    flag = (getLenList(L) == result);
+    check_getLenList_0(flag, num);
 }
 
-void t_getLen(){
+void t_getLenList(){
     linkList L = NULL;
     
-    check_getLen(L, -1, 1);
+    check_getLenList(L, -1, 1);
     initList(&L);
-    check_getLen(L, -1, 2);
+    check_getLenList(L, -1, 2);
     insertList(L, 0, 1);
     insertList(L, 0, 2);
-    check_getLen(L, 2, 3);
+    check_getLenList(L, 2, 3);
     deleteList(&L, 0);
-    check_getLen(L, 1, 4);
+    check_getLenList(L, 1, 4);
     clearList(&L);
-    check_getLen(L, -1, 5);
+    check_getLenList(L, -1, 5);
 }
 
-CHECK(getElem, flag, num)
+CHECK(getElemList, flag, num)
 
-void check_getElem(linkList L, int index, int result, int num){
+void check_getElemList(linkList L, int index, int result, int num){
     bool flag;
-    flag = (getElem(L, index) == result);
-    check_getElem_0(flag, num);
+    flag = (getElemList(L, index) == result);
+    check_getElemList_0(flag, num);
 }
 
-void t_getElem(){
+void t_getElemList(){
     linkList L = NULL;
     
-    check_getElem(L, 0, INT_MIN, 1);
+    check_getElemList(L, 0, INT_MIN, 1);
     initList(&L);
-    check_getElem(L, 0, INT_MIN, 2);
+    check_getElemList(L, 0, INT_MIN, 2);
     insertList(L, 0, 1);
     insertList(L, 0, 2);
-    check_getElem(L, 1, 2, 3);
-    check_getElem(L, 4, INT_MIN, 4);
-    check_getElem(L, -1, INT_MIN, 5);
+    check_getElemList(L, 1, 2, 3);
+    check_getElemList(L, 4, INT_MIN, 4);
+    check_getElemList(L, -1, INT_MIN, 5);
 }
 
-CHECK(locateELem, flag, num)
+CHECK(locateELemList, flag, num)
 
-void check_locateELem(linkList L, ElemType e, int result, int num){
+void check_locateELemList(linkList L, ElemType e, int result, int num){
     bool flag;
-    flag = (locateELem(L, e, compare) == result);
-    check_locateELem_0(flag, num);
+    flag = (locateELemList(L, e, compare) == result);
+    check_locateELemList_0(flag, num);
 }
 
-void t_locateELem(){
+void t_locateELemList(){
     linkList L = NULL;
     
-    check_locateELem(L, 1, -1, 1);
+    check_locateELemList(L, 1, -1, 1);
     initList(&L);
-    check_locateELem(L, 0, -1, 2);
+    check_locateELemList(L, 0, -1, 2);
     insertList(L, 0, 1);
     insertList(L, 0, 2);
-    check_locateELem(L, 0, -1, 3);
-    check_locateELem(L, 2, 1, 4);
+    check_locateELemList(L, 0, -1, 3);
+    check_locateELemList(L, 2, 1, 4);
 }
 
-CHECK(priorElem, flag, num)
+CHECK(priorElemList, flag, num)
 
-void check_priorElem(linkList L, ElemType e, int result, int num){
+void check_priorElemList(linkList L, ElemType e, int result, int num){
     bool flag;
-    flag = (priorElem(L, e) == result);
-    check_priorElem_0(flag, num);
+    flag = (priorElemList(L, e) == result);
+    check_priorElemList_0(flag, num);
 }
 
-void t_priorElem(){
+void t_priorElemList(){
     linkList L = NULL;
     
-    check_priorElem(L, 2, INT_MIN, 1);
+    check_priorElemList(L, 2, INT_MIN, 1);
     initList(&L);
-    check_priorElem(L, 2, INT_MIN, 2);
+    check_priorElemList(L, 2, INT_MIN, 2);
     insertList(L, 0, 1);
-    check_priorElem(L, 2, INT_MIN, 3);
+    check_priorElemList(L, 2, INT_MIN, 3);
     insertList(L, 0, 2);
-    check_priorElem(L, 2, 1, 4);
+    check_priorElemList(L, 2, 1, 4);
 }
 
-CHECK(nextELem, flag, num)
+CHECK(nextELemList, flag, num)
 
-void check_nextELem(linkList L, ElemType e, int result, int num){
+void check_nextELemList(linkList L, ElemType e, int result, int num){
     bool flag;
-    flag = (nextELem(L, e) == result);
-    check_nextELem_0(flag, num);
+    flag = (nextELemList(L, e) == result);
+    check_nextELemList_0(flag, num);
 }
 
-void t_nextELem(){
+void t_nextELemList(){
     linkList L = NULL;
     
-    check_nextELem(L, 2, INT_MIN, 1);
+    check_nextELemList(L, 2, INT_MIN, 1);
     initList(&L);
-    check_nextELem(L, 2, INT_MIN, 2);
+    check_nextELemList(L, 2, INT_MIN, 2);
     insertList(L, 0, 1);
-    check_nextELem(L, 2, INT_MIN, 3);
+    check_nextELemList(L, 2, INT_MIN, 3);
     insertList(L, 0, 2);
-    check_nextELem(L, 1, 2, 4);
+    check_nextELemList(L, 1, 2, 4);
 }
 
 CHECK(insertList, flag, num)
@@ -230,7 +213,7 @@ void check_insertList(linkList L, ElemType e, int index, int result, int num){
     bool flag;
     ElemType e2;
     flag = insertList(L, index, e);
-    e2 = getElem(L, index);
+    e2 = getElemList(L, index);
     flag = (flag == (e2 == result));
     check_insertList_0(flag, num);
 }
@@ -253,9 +236,9 @@ void check_deleteList(linkList L,  int index, bool result, int num){
     bool flag;
     int index2;
     ElemType e;
-    e = getElem(L, index);
+    e = getElemList(L, index);
     flag = deleteList(&L, index);
-    index2 = locateELem(L, e, compare);
+    index2 = locateELemList(L, e, compare);
     flag = (flag == result) && (index2 == -1);
     check_deleteList_0(flag, num);
 }
