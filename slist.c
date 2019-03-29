@@ -9,6 +9,10 @@
 #include "slist.h"
 
 void initSList(SList **L){//注意此处是二级指针
+    if(isExistSList(*L)) {
+        printstr("This list is not empty. If you want reset it, please destroy it first.");
+        return;
+    }
     *L = (SList *)malloc(sizeof(SList));
     if(*L == NULL) exit(EXIT_FAILURE);
     
@@ -44,7 +48,7 @@ bool isExistSList(SList *L){
 }
 
 int getLenSList(SList *L){
-    if(!isExistSList(L)) return INT_MIN;
+    if(!isExistSList(L)) return -1;
     return L->len;
 }
 
@@ -57,13 +61,13 @@ int locateELemSList(SList *L, ElemType e, bool (* compare)(ElemType a, ElemType 
     int i = 0;
     ElemType *p;
     
-    if(!isExistSList(L)) return INT_MIN;
+    if(!isExistSList(L)) return -1;
     
     p = L->elem;
     while(i < L->len && (*compare)(e, *p++) == false) i++;
     
     if (i < L->len) return i;
-    else return INT_MIN;
+    else return -1;
 }
 
 ElemType neighborELem(SList *L, ElemType cur_e, bool isNext){
@@ -91,7 +95,7 @@ ElemType nextELemSList(SList *L, ElemType cur_e){
 bool insertSList(SList *L, int index, ElemType e){
     ElemType *p, *q;
     
-    if(!isExistSList(L) && (index > L->len || index < 0)) return false;
+    if(!isExistSList(L) || index > L->len || index < 0) return false;
     
     if(L->len == L->SListSize){
         L = realloc(L, (L->SListSize + SListINCREMENT) * sizeof(ElemType));
@@ -114,7 +118,7 @@ bool insertSList(SList *L, int index, ElemType e){
 bool deleteSList(SList *L, int index){
     ElemType *p;
     
-    if(!isExistSList(L) && (index > L->len || index < 0)) return false;
+    if(!isExistSList(L) || (index > L->len || index < 0)) return false;
     
     for (p = &L->elem[index]; p < &L->elem[L->len  -1]; p++) {
         *p = *(p + 1);

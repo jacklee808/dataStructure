@@ -16,3 +16,11 @@ bool compare(ElemType a, ElemType b){
 void visit(ElemType e){
     printf("%d ", e);
 }
+
+void printstr(char *str){
+    printf("%s%s", str, "\n");
+}
+
+void println(char *str, int num){
+    printf("%s %d%s", str, num, "\n");
+}

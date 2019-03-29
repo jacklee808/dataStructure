@@ -23,5 +23,7 @@
 
 bool compare(ElemType a, ElemType b);
 void visit(ElemType e);
+void printstr(char *str);
+void println(char *str, int num);
 
 #endif /* std_h */
