@@ -31,7 +31,8 @@ int locateELem(linkList L, ElemType e, bool (* compare)(ElemType a, ElemType b))
 ElemType priorElem(linkList L, ElemType cur_e);
 ElemType nextELem(linkList L, ElemType cur_e);
 bool insertList(linkList L, int index, ElemType e);
-bool deleteList(linkList L, int index);
+bool bInsertList(linkList *L, int index, ElemType e);
+bool deleteList(linkList *L, int index);
 void traverseList(linkList L, void (* visit)(ElemType e));
 linkList unionList(linkList La, linkList Lb);
 void mergeList(linkList La, linkList Lb, linkList *Lc);

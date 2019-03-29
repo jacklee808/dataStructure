@@ -18,11 +18,13 @@ void initList(linkList *L){
 void destroyList(linkList *L){
     LNode *p, *q;
     
+    if(!isExist(*L)) return;
+    
     p = *L;
     while (p != NULL){
-        q = p->next;
-        free(p);
-        p = q;
+        q = p;
+        p = p->next;
+        free(q);
     }
     //此处不能漏掉
     *L = NULL;
@@ -60,8 +62,9 @@ ElemType getElem(linkList L, int index){
     LNode *p;
     
     if (!isExist(L)) return INT_MIN;
+    
     p = L;
-    while(n < index && p){
+    while(n < index && p != NULL){
         p = p->next;
         n++;
     }
@@ -75,8 +78,9 @@ int locateELem(linkList L, ElemType e, bool (* compare)(ElemType a, ElemType b))
     LNode *p;
     
     if (!isExist(L)) return -1;
+    
     p = L;
-    while(p && compare(p->data, e) == false){
+    while(p != NULL && compare(p->data, e) == false){
         p = p->next;
         index++;
     }
@@ -114,22 +118,24 @@ ElemType nextELem(linkList L, ElemType cur_e){
     else return p->next->data;
 }
 
-bool insertList(linkList L, int index, ElemType e){
+bool insert(linkList *L, int index, ElemType e, bool isAfter){
     int n = 0;
     LNode *p, *q;
     
-    if (!isExist(L) || index < 0) return false;
+    if (!isExist(*L) || index < 0) return false;
     
-    p = L;
-    if(L->data == INT_MIN){
+    p = *L;
+    if((*L)->data == INT_MIN){
         if(index == 0){
-            L->data = e;
+            (*L)->data = e;
             return true;
         }else{
             return false;
         }
     }
-    
+    if(!isAfter){
+        index--;
+    }
     while(n < index && p != NULL){
         p = p->next;
         n++;
@@ -137,20 +143,34 @@ bool insertList(linkList L, int index, ElemType e){
     
     if(p == NULL) return false;
     else{
-        q = (linkList)malloc(sizeof(LNode));
+        q = (LNode *)malloc(sizeof(LNode));
         q->data = e;
-        q->next = p->next;
-        p->next = q;
+        if(isAfter == false && index == -1){
+            q->next = p;
+            *L = q;
+        }else{
+            q->next = p->next;
+            p->next = q;
+        }
         return true;
     }
 }
 
-bool deleteList(linkList L, int index){
+bool insertList(linkList L, int index, ElemType e){
+    return insert(&L, index, e, true);
+}
+
+bool bInsertList(linkList *L, int index, ElemType e){
+    return insert(L, index, e, false);
+}
+
+bool deleteList(linkList *L, int index){
     int n = 0;
     LNode *p, *q;
+    //如果删除的是表头呢？
+    if (!isExist(*L) || index < 0) return false;
     
-    if (!isExist(L) || index < 0) return false;
-    q = p = L;
+    q = p = *L;
     while(n < index && p != NULL){
         q = p;
         p = p->next;
@@ -159,7 +179,8 @@ bool deleteList(linkList L, int index){
     
     if(p == NULL) return false;
     else{
-        q->next = p->next;
+        if(index == 0) *L = (*L)->next;
+        else q->next = p->next;
         free(p);
         p = NULL;
         return true;
@@ -179,23 +200,17 @@ void traverseList(linkList L, void (* visit)(ElemType e)){
 }
 
 linkList unionList(linkList La, linkList Lb){
-    LNode *p = NULL, *q = NULL, *q2 = NULL;
+    LNode *p = NULL, *q = NULL;
     
     if (!isExist(La)) return Lb;
     if (!isExist(Lb)) return La;
     
     p = Lb;
-    while(p != NULL){
-        q = La;
-        while(q != NULL && compare(p->data, q->data) == false){
-            q2 = q;
-            q = q->next;
-        }
-        if (q == NULL){
-            q2->next = p;
-            q2->next->next = NULL;
-            p = p->next;
-        }
+    while(p != NULL && -1 == locateELem(La, p->data, compare)){
+        q = p->next;
+        p->next = La->next;
+        La->next = p;
+        p = q;
     }
     
     return La;
@@ -215,8 +230,14 @@ void insertNode(LNode **Lc, LNode **p, LNode **r){
 void mergeList(linkList La, linkList Lb, linkList *Lc){
     LNode *p = NULL, *q = NULL, *r = NULL;
     
-    if (!isExist(La)) *Lc = Lb;
-    if (!isExist(Lb)) *Lc = La;
+    if (!isExist(La)){
+        *Lc = Lb;
+        return;
+    }
+    if (!isExist(Lb)){
+        *Lc = La;
+        return;
+    }
     
     p = La;
     q = Lb;
