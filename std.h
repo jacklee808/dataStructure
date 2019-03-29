@@ -26,4 +26,10 @@ void visit(ElemType e);
 void printstr(char *str);
 void println(char *str, int num);
 
+#define CHECK(func, flag, num)                       \
+void check_##func##_0(bool flag, int num){           \
+    if(flag) println(#func" OK ", num);              \
+    else println(#func" error ", num);               \
+}
+
 #endif /* std_h */
