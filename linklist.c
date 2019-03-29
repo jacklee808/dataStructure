@@ -9,6 +9,10 @@
 #include "linklist.h"
 
 void initList(linkList *L){
+    if(isExist(*L)) {
+        printstr("This list is not empty. If you want reset it, please destroy it first.");
+        return;
+    }
     *L = (linkList) malloc(sizeof(LNode));
     if(*L == NULL)exit(EXIT_FAILURE);
     (*L)->data = INT_MIN;
@@ -35,7 +39,7 @@ void clearList(linkList *L){
 }
 
 bool isEmpty(linkList L){
-    return isExist(L);
+    return !isExist(L) || L->data == INT_MIN;
 }
 
 bool isExist(linkList L){
@@ -47,7 +51,7 @@ int getLen(linkList L){
     int n = 0;
     LNode *p;
     
-    if (!isExist(L)) return INT_MIN;
+    if (isEmpty(L)) return -1;
     p = L;
     while(p){
         p = p->next;
@@ -61,7 +65,7 @@ ElemType getElem(linkList L, int index){
     int n = 0;
     LNode *p;
     
-    if (!isExist(L)) return INT_MIN;
+    if (isEmpty(L) || index < 0) return INT_MIN;
     
     p = L;
     while(n < index && p != NULL){
@@ -77,7 +81,7 @@ int locateELem(linkList L, ElemType e, bool (* compare)(ElemType a, ElemType b))
     int index = 0;
     LNode *p;
     
-    if (!isExist(L)) return -1;
+    if (isEmpty(L)) return -1;
     
     p = L;
     while(p != NULL && compare(p->data, e) == false){
@@ -92,7 +96,7 @@ int locateELem(linkList L, ElemType e, bool (* compare)(ElemType a, ElemType b))
 ElemType priorElem(linkList L, ElemType cur_e){
     LNode *p, *q = NULL;
     
-    if (!isExist(L)) return INT_MIN;
+    if (isEmpty(L) || getLen(L) == 1) return INT_MIN;
     
     p = L;
     while(p != NULL && compare(cur_e, p->data) == false){
@@ -100,14 +104,14 @@ ElemType priorElem(linkList L, ElemType cur_e){
         p = p->next;
     }
     
-    if(p == NULL || p == L) return INT_MIN;
+    if(p == NULL) return INT_MIN;
     else return q->data;
 }
 
 ElemType nextELem(linkList L, ElemType cur_e){
     LNode *p;
     
-    if (!isExist(L)) return INT_MIN;
+    if (isEmpty(L) || getLen(L) == 1) return INT_MIN;
     
     p = L;
     while(p != NULL && compare(cur_e, p->data) == false){
@@ -190,7 +194,7 @@ bool deleteList(linkList *L, int index){
 void traverseList(linkList L, void (* visit)(ElemType e)){
     LNode *p;
     
-    if (!isExist(L)) return;
+    if (isEmpty(L)) return;
 
     p = L;
     while (p != NULL) {
@@ -202,8 +206,8 @@ void traverseList(linkList L, void (* visit)(ElemType e)){
 linkList unionList(linkList La, linkList Lb){
     LNode *p = NULL, *q = NULL;
     
-    if (!isExist(La)) return Lb;
-    if (!isExist(Lb)) return La;
+    if (isEmpty(La)) return Lb;
+    if (isEmpty(Lb)) return La;
     
     p = Lb;
     while(p != NULL && -1 == locateELem(La, p->data, compare)){
@@ -230,11 +234,11 @@ void insertNode(LNode **Lc, LNode **p, LNode **r){
 void mergeList(linkList La, linkList Lb, linkList *Lc){
     LNode *p = NULL, *q = NULL, *r = NULL;
     
-    if (!isExist(La)){
+    if (isEmpty(La)){
         *Lc = Lb;
         return;
     }
-    if (!isExist(Lb)){
+    if (isEmpty(Lb)){
         *Lc = La;
         return;
     }

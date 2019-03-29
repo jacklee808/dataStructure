@@ -11,6 +11,8 @@
 
 #include <stdio.h>
 #include "slist.h"
+#include "std.h"
+
 void t_initSList(void);
 void t_destroySList(void);
 void t_clearSList(void);

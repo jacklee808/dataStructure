@@ -8,12 +8,6 @@
 
 #include "t_slist.h"
 
-#define CHECK(func, flag, num)                       \
-void check_##func##_0(bool flag, int num){           \
-    if(flag) println(#func" OK ", num);              \
-    else println(#func" error ", num);               \
-}
-
 CHECK(initSList, flag, num)
 
 void check_initSList(SList *L, bool N, int num){
@@ -77,7 +71,7 @@ void t_clearSList(){
     check_clearSList(L, false, 2);
     insertSList(L, 0, 1);
     insertSList(L, 1, 2);
-    check_clearSList(L, false, 2);
+    check_clearSList(L, false, 3);
     insertSList(L, 0, 1);
     insertSList(L, 1, 2);
     destroySList(&L);
