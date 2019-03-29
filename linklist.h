@@ -22,14 +22,14 @@ typedef struct LNode{
 void initList(linkList *L);
 void destroyList(linkList *L);
 void clearList(linkList *L);
-bool isEmpty(linkList L);
-bool isExist(linkList L);
-int getLen(linkList L);
-ElemType getElem(linkList L, int index);
+bool isEmptyList(linkList L);
+bool isExistList(linkList L);
+int getLenList(linkList L);
+ElemType getElemList(linkList L, int index);
 //传递函数指针
-int locateELem(linkList L, ElemType e, bool (* compare)(ElemType a, ElemType b));
-ElemType priorElem(linkList L, ElemType cur_e);
-ElemType nextELem(linkList L, ElemType cur_e);
+int locateELemList(linkList L, ElemType e, bool (* compare)(ElemType a, ElemType b));
+ElemType priorElemList(linkList L, ElemType cur_e);
+ElemType nextELemList(linkList L, ElemType cur_e);
 bool insertList(linkList L, int index, ElemType e);
 bool bInsertList(linkList *L, int index, ElemType e);
 bool deleteList(linkList *L, int index);

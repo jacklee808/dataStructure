@@ -9,7 +9,7 @@
 #include "linklist.h"
 
 void initList(linkList *L){
-    if(isExist(*L)) {
+    if(isExistList(*L)) {
         printstr("This list is not empty. If you want reset it, please destroy it first.");
         return;
     }
@@ -22,7 +22,7 @@ void initList(linkList *L){
 void destroyList(linkList *L){
     LNode *p, *q;
     
-    if(!isExist(*L)) return;
+    if(!isExistList(*L)) return;
     
     p = *L;
     while (p != NULL){
@@ -38,20 +38,20 @@ void clearList(linkList *L){
     destroyList(L);
 }
 
-bool isEmpty(linkList L){
-    return !isExist(L) || L->data == INT_MIN;
+bool isEmptyList(linkList L){
+    return !isExistList(L) || L->data == INT_MIN;
 }
 
-bool isExist(linkList L){
+bool isExistList(linkList L){
     if(L == NULL) return false;
     else return true;
 }
 
-int getLen(linkList L){
+int getLenList(linkList L){
     int n = 0;
     LNode *p;
     
-    if (isEmpty(L)) return -1;
+    if (isEmptyList(L)) return -1;
     p = L;
     while(p){
         p = p->next;
@@ -61,11 +61,11 @@ int getLen(linkList L){
     return n;
 }
 
-ElemType getElem(linkList L, int index){
+ElemType getElemList(linkList L, int index){
     int n = 0;
     LNode *p;
     
-    if (isEmpty(L) || index < 0) return INT_MIN;
+    if (isEmptyList(L) || index < 0) return INT_MIN;
     
     p = L;
     while(n < index && p != NULL){
@@ -77,11 +77,11 @@ ElemType getElem(linkList L, int index){
     else return p->data;
 }
 
-int locateELem(linkList L, ElemType e, bool (* compare)(ElemType a, ElemType b)){
+int locateELemList(linkList L, ElemType e, bool (* compare)(ElemType a, ElemType b)){
     int index = 0;
     LNode *p;
     
-    if (isEmpty(L)) return -1;
+    if (isEmptyList(L)) return -1;
     
     p = L;
     while(p != NULL && compare(p->data, e) == false){
@@ -93,10 +93,10 @@ int locateELem(linkList L, ElemType e, bool (* compare)(ElemType a, ElemType b))
     return index;
 }
 
-ElemType priorElem(linkList L, ElemType cur_e){
+ElemType priorElemList(linkList L, ElemType cur_e){
     LNode *p, *q = NULL;
     
-    if (isEmpty(L) || getLen(L) == 1) return INT_MIN;
+    if (isEmptyList(L) || getLenList(L) == 1) return INT_MIN;
     
     p = L;
     while(p != NULL && compare(cur_e, p->data) == false){
@@ -108,10 +108,10 @@ ElemType priorElem(linkList L, ElemType cur_e){
     else return q->data;
 }
 
-ElemType nextELem(linkList L, ElemType cur_e){
+ElemType nextELemList(linkList L, ElemType cur_e){
     LNode *p;
     
-    if (isEmpty(L) || getLen(L) == 1) return INT_MIN;
+    if (isEmptyList(L) || getLenList(L) == 1) return INT_MIN;
     
     p = L;
     while(p != NULL && compare(cur_e, p->data) == false){
@@ -126,7 +126,7 @@ bool insert(linkList *L, int index, ElemType e, bool isAfter){
     int n = 0;
     LNode *p, *q;
     
-    if (!isExist(*L) || index < 0) return false;
+    if (!isExistList(*L) || index < 0) return false;
     
     p = *L;
     if((*L)->data == INT_MIN){
@@ -172,7 +172,7 @@ bool deleteList(linkList *L, int index){
     int n = 0;
     LNode *p, *q;
     //如果删除的是表头呢？
-    if (!isExist(*L) || index < 0) return false;
+    if (!isExistList(*L) || index < 0) return false;
     
     q = p = *L;
     while(n < index && p != NULL){
@@ -194,7 +194,7 @@ bool deleteList(linkList *L, int index){
 void traverseList(linkList L, void (* visit)(ElemType e)){
     LNode *p;
     
-    if (isEmpty(L)) return;
+    if (isEmptyList(L)) return;
 
     p = L;
     while (p != NULL) {
@@ -206,11 +206,11 @@ void traverseList(linkList L, void (* visit)(ElemType e)){
 linkList unionList(linkList La, linkList Lb){
     LNode *p = NULL, *q = NULL;
     
-    if (isEmpty(La)) return Lb;
-    if (isEmpty(Lb)) return La;
+    if (isEmptyList(La)) return Lb;
+    if (isEmptyList(Lb)) return La;
     
     p = Lb;
-    while(p != NULL && -1 == locateELem(La, p->data, compare)){
+    while(p != NULL && -1 == locateELemList(La, p->data, compare)){
         q = p->next;
         p->next = La->next;
         La->next = p;
@@ -234,11 +234,11 @@ void insertNode(LNode **Lc, LNode **p, LNode **r){
 void mergeList(linkList La, linkList Lb, linkList *Lc){
     LNode *p = NULL, *q = NULL, *r = NULL;
     
-    if (isEmpty(La)){
+    if (isEmptyList(La)){
         *Lc = Lb;
         return;
     }
-    if (isEmpty(Lb)){
+    if (isEmptyList(Lb)){
         *Lc = La;
         return;
     }
