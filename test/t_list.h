@@ -11,8 +11,8 @@
 
 #include <stdio.h>
 
-#define check_init(func, type)                                   \
-void check_##func##type(linkList L, bool N, int num){    \
+#define check_init(func, type, type2)                                   \
+void check_##func##type(type2 L, bool N, int num){    \
     bool flag;                                             \
                                                            \
     flag = isExist##type(L);                               \
@@ -20,10 +20,10 @@ void check_##func##type(linkList L, bool N, int num){    \
     check_##func##type##_0(flag, num);                       \
 }
 
-#define t_init(func, type)                                       \
+#define t_init(func, type, type2)                                       \
 void t_##func##type(){                                       \
-    linkList L = NULL;                                     \
-    linkList p = NULL;                                     \
+    type2 L = NULL;                                     \
+    type2 p = NULL;                                     \
                                                            \
     check_##func##type(L, false, 1);                         \
     func##type(&L);                                        \
@@ -33,17 +33,18 @@ void t_##func##type(){                                       \
     check_##func##type(L, p == L, 3);                        \
 }
 
-#define check_destroy(func, type)                                \
-void check_destroy##type(linkList L, bool N, int num){     \
+
+#define check_destroy(func, type, type2)                                \
+void check_destroy##type(type2 L, bool N, int num){     \
     bool flag;                                             \
     flag = isExist##type(L);                               \
     if(!N) flag = !flag;                                   \
 check_destroy##type##_0(flag, num);                        \
 }
 
-#define t_destroy(func, type)                                    \
+#define t_destroy(func, type, type2)                                    \
 void t_destroy##type(){                                    \
-    linkList L = NULL;                                     \
+    type2 L = NULL;                                     \
                                                            \
     destroy##type(&L);                                     \
     check_destroy##type(L, false, 1);                      \
@@ -57,8 +58,9 @@ void t_destroy##type(){                                    \
     check_destroy##type(L, false, 3);                      \
 }
 
-#define check_clear(func, type)                                  \
-void check_clear##type(linkList *L, bool N, int num){      \
+
+#define check_clear(func, type, type2)                                  \
+void check_clear##type(type2 *L, bool N, int num){      \
     bool flag;                                             \
                                                            \
     clear##type(L);                                        \
@@ -67,9 +69,9 @@ void check_clear##type(linkList *L, bool N, int num){      \
     check_clear##type##_0(flag, num);                      \
 }
 
-#define t_clear(func, type)                                      \
+#define t_clear(func, type, type2)                                      \
 void t_clear##type(){                                      \
-    linkList L = NULL;                                     \
+    type2 L = NULL;                                     \
                                                            \
     check_clear##type(&L, false, 1);                       \
     init##type(&L);                                        \
@@ -83,9 +85,31 @@ void t_clear##type(){                                      \
     check_clear##type(&L, false, 4);                       \
 }
 
-#define test(func, type)                                   \
+
+#define check_isEmpty(func, type, type2)\
+void check_isEmpty##type(type2 L, bool N, int num){\
+    bool flag;\
+    flag = isEmpty##type(L);\
+    if(!N) flag = !flag;\
+    check_isEmpty##type##_0(flag, num);\
+}
+
+#define t_isEmpty(func, type, type2)\
+void t_isEmpty##type(){\
+    type2 L = NULL;\
+    \
+    check_isEmpty##type(L, true, 1);\
+    init##type(&L);\
+    check_isEmpty##type(L, true, 2);\
+    insert##type(L, 0, 1);\
+    check_isEmpty##type(L, false, 3);\
+    delete##type(&L, 0);\
+    check_isEmpty##type(L, true, 4);\
+}
+
+#define test(func, type, type2)                                   \
     CHECK(func##type, flag, num)                           \
-    check_##func(func, type)                                       \
-    t_##func(func, type)
+    check_##func(func, type, type2)                                       \
+    t_##func(func, type, type2)
 
 #endif /* t_list_h */
