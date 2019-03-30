@@ -159,7 +159,7 @@ bool deleteList(linkList *L, int index){
     int n = 0;
     LNode *p, *q;
     //如果删除的是表头呢？
-    if (!isExistList(*L) || index < 0) return false;
+    if (isEmptyList(*L) || index < 0) return false;
     
     q = p = *L;
     while(n < index && p != NULL){

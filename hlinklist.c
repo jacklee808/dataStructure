@@ -13,23 +13,22 @@ void initHList(linkList *L){
     (*L)->data = 0;
 }
 
-void destroyHList(linkList *L){
-    destroyList(L);
-}
+destroy(HList)
 
 void clearHList(linkList *L){
-    if(isExistHList(*L)) destroyHList(&(*L)->next);
-
-    (*L)->data = 0;
+    if(isExistHList(*L)) {
+        destroyHList(&(*L)->next);
+        (*L)->data = 0;
+    }
 }
 
 bool isEmptyHList(linkList L){
-    if(isExistHList(L) && L->next == NULL) return true;
+    if(!isExistHList(L) || L->data == 0) return true;
     else return false;
 }
 
 bool isExistHList(linkList L){
-    return isExist(L);
+    return isExistList(L);
 }
 
 int getLenHList(linkList L){
@@ -38,32 +37,34 @@ int getLenHList(linkList L){
 }
 
 ElemType getElemHList(linkList L, int index){
-    if (!isExistHList(L) || L->data < index) return INT_MIN;
-    else return getElem(L->next, index);
+    if (!isExistHList(L) || L->data <= index) return INT_MIN;
+    else return getElemList(L->next, index);
 }
 
 int locateELemHList(linkList L, ElemType e, bool (* compare)(ElemType a, ElemType b)){
     if (!isExistHList(L)) return -1;
     
-    return locateELem(L->next, e, compare);
+    return locateELemList(L->next, e, compare);
 }
 
 ElemType priorElemHList(linkList L, ElemType cur_e){
     if (!isExistHList(L)) return INT_MIN;
-    else return priorElem(L->next, cur_e);
+    else return priorElemList(L->next, cur_e);
 }
 
 ElemType nextELemHList(linkList L, ElemType cur_e){
     if (!isExistHList(L)) return INT_MIN;
-    else return nextELem(L->next, cur_e);
+    else return nextELemList(L->next, cur_e);
 }
 
 bool insertHL(linkList *L, int index, ElemType e, bool isAfter){
     int n = 0;
     LNode *p, *q;
     
-    if (!isExistHList(*L) || index < 0 || index > (*L)->data) return false;
-    
+    if (!isExistHList(*L) || index < 0 || (index > 0 && index > getLenHList(*L))) return false;
+    if(index == getLenHList(*L)){
+        isAfter = false;
+    }
     p = (*L)->next;
     if(!isAfter){
         index--;
@@ -98,19 +99,20 @@ bool deleteHList(linkList *L, int index){
     int n = 0;
     LNode *p, *q;
     
-    if (!isExistHList(*L) || index < 0 || index > (*L)->data) return false;
-    
+    if (isEmptyHList(*L) || index < 0 || index >= (*L)->data) return false;
+    q = (*L);
     p = (*L)->next;
     
-    while (p != NULL && n < index - 1) {
+    while (p != NULL && n < index) {
+        q = p;
         p = p->next;
         n++;
     }
     
-    q = p->next;
-    p->next = p->next->next;
+    q->next = p->next;
+    free(p);
     (*L)->data--;
-    free(q);
+    
     return true;
 }
 
@@ -124,7 +126,7 @@ linkList unionHList(linkList La, linkList Lb){
     if(!isExistHList(Lb)) return La;
     
     p = Lb->next;
-    while (p != NULL && -1 == locateELem(La, p->data, compare)) {
+    while (p != NULL && -1 == locateELemList(La, p->data, compare)) {
         q = p->next;
         p->next = La->next;
         La->next = p;
