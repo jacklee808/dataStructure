@@ -19,20 +19,7 @@ void initList(linkList *L){
     (*L)->next = NULL;
 }
 
-void destroyList(linkList *L){
-    LNode *p, *q;
-    
-    if(!isExistList(*L)) return;
-    
-    p = *L;
-    while (p != NULL){
-        q = p;
-        p = p->next;
-        free(q);
-    }
-    //此处不能漏掉
-    *L = NULL;
-}
+destroy(List)
 
 void clearList(linkList *L){
     destroyList(L);

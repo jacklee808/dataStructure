@@ -13,6 +13,7 @@
 
 #include <stdio.h>
 #include "std.h"
+#include "list.h"
 
 typedef struct LNode{
     ElemType data;

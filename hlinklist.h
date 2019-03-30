@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include "std.h"
+#include "list.h"
 #include "linklist.h"
 
 void initHList(linkList *L);

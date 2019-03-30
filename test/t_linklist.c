@@ -8,58 +8,9 @@
 
 #include "t_linklist.h"
 
-CHECK(initList, flag, num)
-check_init(List)
-t_init(List)
-
-CHECK(destroyList, flag, num)
-
-void check_destroyList(linkList L, bool N, int num){
-    bool flag;
-    flag = isExistList(L);
-    if(!N) flag = !flag;
-    check_destroyList_0(flag, num);
-}
-
-void t_destroyList(){
-    linkList L = NULL;
-    
-    destroyList(&L);
-    check_destroyList(L, false, 1);
-    initList(&L);
-    destroyList(&L);
-    check_destroyList(L, false, 2);
-    initList(&L);
-    insertList(L, 0, 1);
-    insertList(L, 1, 2);
-    destroyList(&L);
-    check_destroyList(L, false, 3);
-}
-
-CHECK(clearList, flag, num)
-
-void check_clearList(linkList *L, bool N, int num){
-    bool flag;
-    clearList(L);
-    flag = !(!isExistList(*L) || (isExistList(*L) && isEmptyList(*L)));
-    if(!N) flag = !flag;
-    check_clearList_0(flag, num);
-}
-
-void t_clearList(){
-    linkList L = NULL;
-    
-    check_clearList(&L, false, 1);
-    initList(&L);
-    check_clearList(&L, false, 2);
-    insertList(L, 0, 1);
-    insertList(L, 1, 2);
-    check_clearList(&L, false, 3);
-    insertList(L, 0, 1);
-    insertList(L, 1, 2);
-    destroyList(&L);
-    check_clearList(&L, false, 4);
-}
+test(init, List)
+test(destroy, List)
+test(clear, List)
 
 CHECK(isEmptyList, flag, num)
 
