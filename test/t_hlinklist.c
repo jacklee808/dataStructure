@@ -8,30 +8,10 @@
 
 #include "t_hlinklist.h"
 
-test(init, HList)
-test(destroy, HList)
-test(clear, HList)
-
-CHECK(isEmptyHList, flag, num)
-
-void check_isEmptyHList(linkList L, bool N, int num){
-    bool flag;
-    flag = isEmptyHList(L);
-    if(!N) flag = !flag;
-    check_isEmptyHList_0(flag, num);
-}
-
-void t_isEmptyHList(){
-    linkList L = NULL;
-    
-    check_isEmptyHList(L, true, 1);
-    initHList(&L);
-    check_isEmptyHList(L, true, 2);
-    insertHList(L, 0, 1);
-    check_isEmptyHList(L, false, 3);
-    deleteHList(&L, 0);
-    check_isEmptyHList(L, true, 4);
-}
+test(init, HList, linkList)
+test(destroy, HList, linkList)
+test(clear, HList, linkList)
+test(isEmpty, HList, linkList)
 
 CHECK(isExistHList, flag, num)
 

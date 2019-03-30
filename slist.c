@@ -8,12 +8,12 @@
 
 #include "slist.h"
 
-void initSList(SList **L){//注意此处是二级指针
+void initSList(SList *L){//注意此处是二级指针
     if(isExistSList(*L)) {
         printstr("This list is not empty. If you want reset it, please destroy it first.");
         return;
     }
-    *L = (SList *)malloc(sizeof(SList));
+    *L = (SList)malloc(sizeof(SLists));
     if(*L == NULL) exit(EXIT_FAILURE);
     
     (*L)->elem = (ElemType *)malloc(SList_INIT_SIZE *sizeof(ElemType));
@@ -23,7 +23,7 @@ void initSList(SList **L){//注意此处是二级指针
     (*L)->SListSize = SList_INIT_SIZE;
 }
 
-void destroySList(SList **L){
+void destroySList(SList *L){
     if(!isExistSList(*L)) return;
     free((*L)->elem);
     (*L)->elem = NULL;
@@ -33,31 +33,27 @@ void destroySList(SList **L){
 }
 
 void clearSList(SList *L){
-    if(!isExistSList(L)) return;
-    L->len = 0; //逻辑删除
+    if(!isExistSList(*L)) return;
+    (*L)->len = 0; //逻辑删除
 }
 
-bool isEmptySList(SList *L){
-    if(!isExistSList(L) || L->len == 0) return true;
-    return false;
+bool isEmptySList(SList L){
+    return !isExistSList(L) || L->len == 0;
 }
 
-bool isExistSList(SList *L){
-    if(L == NULL) return false;
-    return true;
-}
+isExist(SList, SList)
 
-int getLenSList(SList *L){
+int getLenSList(SList L){
     if(!isExistSList(L)) return -1;
     return L->len;
 }
 
-ElemType getElemSList(SList *L, int index){
+ElemType getElemSList(SList L, int index){
     if(!isExistSList(L) || index >= L->len || index < 0) return INT_MIN;
     return L->elem[index];
 }
 
-int locateELemSList(SList *L, ElemType e, bool (* compare)(ElemType a, ElemType b)){
+int locateELemSList(SList L, ElemType e, bool (* compare)(ElemType a, ElemType b)){
     int i = 0;
     ElemType *p;
     
@@ -70,7 +66,7 @@ int locateELemSList(SList *L, ElemType e, bool (* compare)(ElemType a, ElemType 
     else return -1;
 }
 
-ElemType neighborELem(SList *L, ElemType cur_e, bool isNext){
+ElemType neighborELem(SList L, ElemType cur_e, bool isNext){
     int i = 0;
     ElemType *p;
     
@@ -84,15 +80,15 @@ ElemType neighborELem(SList *L, ElemType cur_e, bool isNext){
     else return INT_MIN;
 }
 
-ElemType priorElemSList(SList *L, ElemType cur_e){
+ElemType priorElemSList(SList L, ElemType cur_e){
     return neighborELem(L, cur_e, false);
 }
 
-ElemType nextELemSList(SList *L, ElemType cur_e){
+ElemType nextELemSList(SList L, ElemType cur_e){
     return neighborELem(L, cur_e, true);
 }
 
-bool insertSList(SList *L, int index, ElemType e){
+bool insertSList(SList L, int index, ElemType e){
     ElemType *p, *q;
     
     if(!isExistSList(L) || index > L->len || index < 0) return false;
@@ -118,18 +114,18 @@ bool insertSList(SList *L, int index, ElemType e){
 bool deleteSList(SList *L, int index){
     ElemType *p;
     
-    if(!isExistSList(L) || (index > L->len || index < 0)) return false;
+    if(!isExistSList(*L) || (index >= (*L)->len || index < 0)) return false;
     
-    for (p = &L->elem[index]; p < &L->elem[L->len  -1]; p++) {
+    for (p = &(*L)->elem[index]; p < &(*L)->elem[(*L)->len  - 1]; p++) {
         *p = *(p + 1);
     }
     
-    L->len--;
+    (*L)->len--;
     
     return true;
 }
 
-void traverseSList(SList *L, void (* visit)(ElemType e)){
+void traverseSList(SList L, void (* visit)(ElemType e)){
     int i;
     
     if(!isExistSList(L)) return;
@@ -139,7 +135,7 @@ void traverseSList(SList *L, void (* visit)(ElemType e)){
     }
 }
 
-SList * unionSList(SList *La, SList *Lb){
+SList  unionSList(SList La, SList Lb){
     int i, j;
     ElemType e;
     if (isEmptySList(La)) return Lb;
@@ -155,7 +151,7 @@ SList * unionSList(SList *La, SList *Lb){
     return La;
 }
 
-void mergeSList(SList *La, SList *Lb, SList **Lc){
+void mergeSList(SList La, SList Lb, SList *Lc){
     int i = 0, j = 0, k = 0, aLen = 0, bLen = 0;
     ElemType e1, e2;
     initSList(Lc);

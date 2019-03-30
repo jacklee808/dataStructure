@@ -29,10 +29,7 @@ bool isEmptyList(linkList L){
     return !isExistList(L) || L->data == INT_MIN;
 }
 
-bool isExistList(linkList L){
-    if(L == NULL) return false;
-    else return true;
-}
+isExist(List, linkList)
 
 int getLenList(linkList L){
     int n = 0;

@@ -23,13 +23,10 @@ void clearHList(linkList *L){
 }
 
 bool isEmptyHList(linkList L){
-    if(!isExistHList(L) || L->data == 0) return true;
-    else return false;
+    return !isExistHList(L) || L->data == 0;
 }
 
-bool isExistHList(linkList L){
-    return isExistList(L);
-}
+isExist(HList, linkList)
 
 int getLenHList(linkList L){
     if (isExistHList(L)) return L->data;

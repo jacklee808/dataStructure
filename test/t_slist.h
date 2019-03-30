@@ -10,8 +10,9 @@
 #define t_slist_h
 
 #include <stdio.h>
-#include "slist.h"
 #include "std.h"
+#include "slist.h"
+#include "t_list.h"
 
 void t_initSList(void);
 void t_destroySList(void);

@@ -7,101 +7,14 @@
 //
 
 #include "t_slist.h"
-
-CHECK(initSList, flag, num)
-
-void check_initSList(SList *L, bool N, int num){
-    bool flag;
-    flag = isExistSList(L);
-    if(!N) flag = !flag;
-    check_initSList_0(flag, num);
-}
-
-void t_initSList(){
-    SList *L = NULL;
-    SList *p = NULL;
-    
-    check_initSList(L, false, 1);
-    initSList(&L);
-    check_initSList(L, true, 2);
-    p = L;
-    initSList(&L);
-    check_initSList(L, p == L, 3);
-}
-
-CHECK(destroySList, flag, num)
-
-void check_destroySList(SList *L, bool N, int num){
-    bool flag;
-    flag = isExistSList(L);
-    if(!N) flag = !flag;
-    check_destroySList_0(flag, num);
-}
-
-void t_destroySList(){
-    SList *L = NULL;
-    
-    destroySList(&L);
-    check_destroySList(L, false, 1);
-    initSList(&L);
-    destroySList(&L);
-    check_destroySList(L, false, 2);
-    initSList(&L);
-    insertSList(L, 0, 1);
-    insertSList(L, 1, 2);
-    destroySList(&L);
-    check_destroySList(L, false, 3);
-}
-
-CHECK(clearSList, flag, num)
-
-void check_clearSList(SList *L, bool N, int num){
-    bool flag;
-    clearSList(L);
-    flag = !(!isExistSList(L) || (isExistSList(L) && isEmptySList(L)));
-    if(!N) flag = !flag;
-    check_clearSList_0(flag, num);
-}
-
-void t_clearSList(){
-    SList *L = NULL;
-    
-    check_clearSList(L, false, 1);
-    initSList(&L);
-    check_clearSList(L, false, 2);
-    insertSList(L, 0, 1);
-    insertSList(L, 1, 2);
-    check_clearSList(L, false, 3);
-    insertSList(L, 0, 1);
-    insertSList(L, 1, 2);
-    destroySList(&L);
-    check_clearSList(L, false, 4);
-}
-
-CHECK(isEmptySList, flag, num)
-
-void check_isEmptySList(SList *L, bool N, int num){
-    bool flag;
-    flag = isEmptySList(L);
-    if(!N) flag = !flag;
-    check_isEmptySList_0(flag, num);
-}
-
-void t_isEmptySList(){
-    SList *L = NULL;
-   
-    check_isEmptySList(L, true, 1);
-    initSList(&L);
-    check_isEmptySList(L, true, 2);
-    insertSList(L, 0, 1);
-    check_isEmptySList(L, false, 3);
-    deleteSList(L, 0);
-    check_isEmptySList(L, true, 4);
-}
+test(init, SList, SList)
+test(destroy, SList, SList)
+test(clear, SList, SList)
+test(isEmpty, SList, SList)
 
 CHECK(isExistSList, flag, num)
 
-void check_isExistSList(SList *L, bool N, int num){
+void check_isExistSList(SList L, bool N, int num){
     bool flag;
     flag = isExistSList(L);
     if(!N) flag = !flag;
@@ -109,12 +22,12 @@ void check_isExistSList(SList *L, bool N, int num){
 }
 
 void t_isExistSList(){
-    SList *L = NULL;
+    SList L = NULL;
     
     check_isExistSList(L, false, 1);
     initSList(&L);
     check_isExistSList(L, true, 2);
-    clearSList(L);
+    clearSList(&L);
     check_isExistSList(L, true, 3);
     destroySList(&L);
     check_isExistSList(L, false, 4);
@@ -122,14 +35,14 @@ void t_isExistSList(){
 
 CHECK(getLenSList, flag, num)
 
-void check_getLenSList(SList *L, int result, int num){
+void check_getLenSList(SList L, int result, int num){
     bool flag;
     flag = (getLenSList(L) == result);
     check_getLenSList_0(flag, num);
 }
 
 void t_getLenSList(){
-    SList *L = NULL;
+    SList L = NULL;
     
     check_getLenSList(L, -1, 1);
     initSList(&L);
@@ -137,22 +50,22 @@ void t_getLenSList(){
     insertSList(L, 0, 1);
     insertSList(L, 0, 2);
     check_getLenSList(L, 2, 3);
-    deleteSList(L, 0);
+    deleteSList(&L, 0);
     check_getLenSList(L, 1, 4);
-    clearSList(L);
+    clearSList(&L);
     check_getLenSList(L, 0, 5);
 }
 
 CHECK(getElemSList, flag, num)
 
-void check_getElemSList(SList *L, int index, int result, int num){
+void check_getElemSList(SList L, int index, int result, int num){
     bool flag;
     flag = (getElemSList(L, index) == result);
     check_getElemSList_0(flag, num);
 }
 
 void t_getElemSList(){
-    SList *L = NULL;
+    SList L = NULL;
   
     check_getElemSList(L, 0, INT_MIN, 1);
     initSList(&L);
@@ -166,14 +79,14 @@ void t_getElemSList(){
 
 CHECK(locateELemSList, flag, num)
 
-void check_locateELemSList(SList *L, ElemType e, int result, int num){
+void check_locateELemSList(SList L, ElemType e, int result, int num){
     bool flag;
     flag = (locateELemSList(L, e, compare) == result);
     check_locateELemSList_0(flag, num);
 }
 
 void t_locateELemSList(){
-    SList *L = NULL;
+    SList L = NULL;
     
     check_locateELemSList(L, 1, -1, 1);
     initSList(&L);
@@ -186,14 +99,14 @@ void t_locateELemSList(){
 
 CHECK(priorElemSList, flag, num)
 
-void check_priorElemSList(SList *L, ElemType e, int result, int num){
+void check_priorElemSList(SList L, ElemType e, int result, int num){
     bool flag;
     flag = (priorElemSList(L, e) == result);
     check_priorElemSList_0(flag, num);
 }
 
 void t_priorElemSList(){
-    SList *L = NULL;
+    SList L = NULL;
     
     check_priorElemSList(L, 2, INT_MIN, 1);
     initSList(&L);
@@ -206,14 +119,14 @@ void t_priorElemSList(){
 
 CHECK(nextELemSList, flag, num)
 
-void check_nextELemSList(SList *L, ElemType e, int result, int num){
+void check_nextELemSList(SList L, ElemType e, int result, int num){
     bool flag;
     flag = (nextELemSList(L, e) == result);
     check_nextELemSList_0(flag, num);
 }
 
 void t_nextELemSList(){
-    SList *L = NULL;
+    SList L = NULL;
     
     check_nextELemSList(L, 2, INT_MIN, 1);
     initSList(&L);
@@ -226,7 +139,7 @@ void t_nextELemSList(){
 
 CHECK(insertSList, flag, num)
 
-void check_insertSList(SList *L, ElemType e, int index, int result, int num){
+void check_insertSList(SList L, ElemType e, int index, int result, int num){
     bool flag;
     ElemType e2;
     flag = insertSList(L, index, e);
@@ -236,7 +149,7 @@ void check_insertSList(SList *L, ElemType e, int index, int result, int num){
 }
 
 void t_insertSList(){
-    SList *L = NULL;
+    SList L = NULL;
     
     check_insertSList(L, 2, 0, 2, 1);
     initSList(&L);
@@ -249,19 +162,19 @@ void t_insertSList(){
 
 CHECK(deleteSList, flag, num)
 
-void check_deleteSList(SList *L,  int index, int num){
+void check_deleteSList(SList L,  int index, int num){
     bool flag;
     int index2;
     ElemType e;
     e = getElemSList(L, index);
-    deleteSList(L, index);
+    deleteSList(&L, index);
     index2 = locateELemSList(L, e, compare);
     flag = (index2 == -1);
     check_deleteSList_0(flag, num);
 }
 
 void t_deleteSList(){
-    SList *L = NULL;
+    SList L = NULL;
     
     check_deleteSList(L, 2, 1);
     initSList(&L);
@@ -271,7 +184,3 @@ void t_deleteSList(){
     check_deleteSList(L, 2, 4);
     check_deleteSList(L, -1, 5);
 }
-
-//    void traverseSList(SList *L, void (* visit)(ElemType e));
-//    SList * unionSList(SList *La, SList *Lb);
-//    void mergeSList(SList *La, SList *Lb, SList **Lc);
